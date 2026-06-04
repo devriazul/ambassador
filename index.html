@@ -35,16 +35,9 @@
       0%,100%{box-shadow:0 0 0 0 rgba(243,113,36,0.3)}
       50%{box-shadow:0 0 0 12px rgba(243,113,36,0)}
     }
-    @keyframes gradientShift{
-      0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}
-    }
     @keyframes moveBg {
       from { background-position: 0 0; }
       to   { background-position: 100px 100px; }
-    }
-    @keyframes moveDotsAlt {
-      from { background-position: 0 0, 20px 20px; }
-      to   { background-position: 40px 40px, 60px 60px; }
     }
 
     /* ── Scroll-reveal ── */
@@ -72,28 +65,9 @@
 
     /* ── Hero background ── */
     .hero-section{
-      background: linear-gradient(-45deg, #ffffff, #f0f3fb, #fff7f0, #ffffff);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
+      background: linear-gradient(180deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.7) 45%, rgba(38,58,127,0.2) 100%), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=2000') center/cover no-repeat;
+      background-attachment: fixed;
       position:relative;
-    }
-    .hero-section::before{
-      content:'';position:absolute;inset:0;
-      background:
-        radial-gradient(ellipse 80% 60% at 70% 30%, rgba(38,58,127,.08) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(243,113,36,.08) 0%, transparent 70%);
-      pointer-events:none;
-    }
-    /* innovative moving dot matrix overlay */
-    .hero-section::after{
-      content:'';position:absolute;inset:0;pointer-events:none;
-      background-image:
-        radial-gradient(circle,rgba(38,58,127,.1) 1.5px,transparent 1.5px),
-        radial-gradient(circle,rgba(243,113,36,.1) 1.5px,transparent 1.5px);
-      background-size:40px 40px;
-      animation: moveDotsAlt 12s linear infinite;
-      mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 0%,transparent 80%);
-      -webkit-mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 0%,transparent 80%);
     }
 
     /* ── Cards ── */
@@ -108,6 +82,16 @@
     }
     .card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 24px 48px rgba(38,58,127,.12),inset 0 0 0 1px rgba(255,255,255,1);border-color:#fff;z-index:10}
     .card-orange:hover{border-color:#fff;box-shadow:0 24px 48px rgba(243,113,36,.15),inset 0 0 0 1px rgba(255,255,255,1)}
+
+    .card-dark{
+      background:rgba(15,23,42,0.65);
+      backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,0.12);
+      border-radius:20px;
+      box-shadow:0 8px 32px rgba(0,0,0,.4), inset 0 0 0 1px rgba(255,255,255,0.05);
+      transition:transform .4s cubic-bezier(0.175,0.885,0.32,1.275),box-shadow .4s ease,border-color .3s ease;
+    }
+    .card-dark:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 24px 48px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.3);z-index:10}
 
     /* ── Buttons ── */
     .btn-navy{
@@ -184,8 +168,6 @@
     #hero-badge {
       transition: transform 0.2s ease-out;
     }
-    @media(max-width:1023px){.hero-floats{display:none!important}.hero-grid{display:grid!important}}
-    @media(min-width:1024px){.hero-grid{display:none!important}.hero-floats{display:block!important}}
 
     /* Mobile drawer */
     #drawer{transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);background:#fff;border-left:1px solid #e8edf8;box-shadow:-8px 0 40px rgba(38,58,127,.12)}
@@ -282,115 +264,112 @@
 <section class="hero-section pt-28 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6 relative overflow-hidden">
 
   <!-- Decorative blobs -->
-  <div class="absolute -top-20 -right-20 w-80 h-80 rounded-full opacity-50 pointer-events-none" style="background:radial-gradient(circle,rgba(38,58,127,.08),transparent 70%);animation:blobMorph 10s ease-in-out infinite;"></div>
-  <div class="absolute bottom-0 -left-16 w-64 h-64 rounded-full opacity-40 pointer-events-none" style="background:radial-gradient(circle,rgba(243,113,36,.08),transparent 70%);animation:blobMorph 8s ease-in-out infinite reverse;"></div>
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-20 pointer-events-none" style="background:radial-gradient(circle,rgba(38,58,127,.05),transparent 60%);animation:blobMorph 12s ease-in-out infinite;"></div>
+  <div class="absolute -top-20 -right-20 w-80 h-80 rounded-full opacity-50 pointer-events-none" style="background:radial-gradient(circle,rgba(129,140,248,.25),transparent 70%);animation:blobMorph 10s ease-in-out infinite;"></div>
+  <div class="absolute bottom-0 -left-16 w-64 h-64 rounded-full opacity-50 pointer-events-none" style="background:radial-gradient(circle,rgba(243,113,36,.25),transparent 70%);animation:blobMorph 8s ease-in-out infinite reverse;"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-30 pointer-events-none" style="background:radial-gradient(circle,rgba(255,255,255,.15),transparent 60%);animation:blobMorph 12s ease-in-out infinite;"></div>
 
-  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-8 items-center relative z-10">
 
-    <!-- LEFT -->
+    <!-- LEFT TEXT -->
     <div class="text-center lg:text-left">
-
       <div style="animation:fadeUp .6s .05s ease both">
-        <span class="pill mb-6" style="background:rgba(243,113,36,.1);color:var(--orange);">
+        <span class="pill mb-6 border border-white/20 shadow-lg" style="background:rgba(255,255,255,0.1);color:#fff;backdrop-filter:blur(10px);">
           <span class="dot-orange"></span>
           Affiliate &amp; Student Referral Scheme
         </span>
       </div>
 
-      <h1 class="font-black leading-[1.1] mb-5" style="font-size:clamp(2.4rem,6vw,4.2rem);animation:fadeUp .65s .12s ease both">
-        <span style="color:var(--primary)">BHE UNI</span><br/>
-        <span class="shimmer-orange">Ambassador</span><br/>
-        <span style="color:var(--primary)">&amp; Rewards</span>
+      <h1 class="font-black leading-[1.1] mb-6 text-white drop-shadow-2xl" style="font-size:clamp(2.8rem,6vw,4.5rem);animation:fadeUp .65s .12s ease both">
+        Monetize Your <br class="hidden lg:block"/>
+        <span style="background:linear-gradient(90deg,#ffd0b0 0%,var(--orange) 45%,#ffd0b0 60%,var(--orange) 80%,#ffd0b0 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmerO 3.5s linear infinite;">University Network</span>
       </h1>
 
-      <p class="text-slate-500 leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0" style="font-size:clamp(.95rem,2vw,1.15rem);animation:fadeUp .65s .2s ease both">
-        Turn your university network into real income. Earn for every review, referral, and successful enrolment - with unlimited potential.
+      <p class="text-blue-50 leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0 font-medium drop-shadow-lg" style="font-size:clamp(1rem,2vw,1.15rem);animation:fadeUp .65s .2s ease both; text-shadow: 0 2px 10px rgba(0,0,0,0.6);">
+        Turn your connections into real income. Earn for every review, referral, and successful enrolment — with unlimited earning potential.
       </p>
 
-      <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-10" style="animation:fadeUp .65s .28s ease both">
-        <a href="#join"   class="btn-orange px-8 py-4 text-sm rounded-full">Start Earning Today →</a>
-        <a href="#levels" class="btn-ghost  px-8 py-4 text-sm rounded-full">How It Works</a>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10" style="animation:fadeUp .65s .28s ease both">
+        <a href="#join" class="btn-orange px-8 py-4 text-base rounded-full shadow-[0_0_20px_rgba(243,113,36,0.4)]">Start Earning Today →</a>
+        <a href="#levels" class="px-8 py-4 text-base rounded-full font-bold border-2 border-white/20 text-white hover:bg-white/10 hover:border-white transition-all">How It Works</a>
       </div>
 
       <!-- Goal pills -->
       <div class="flex flex-wrap gap-2 justify-center lg:justify-start" style="animation:fadeUp .65s .36s ease both">
-        <span class="pill" style="background:#f0f3fb;color:var(--primary);"><i class="fa-solid fa-bullhorn"></i> Referrals</span>
-        <span class="pill" style="background:#fff7f0;color:var(--orange);"><i class="fa-solid fa-star"></i> Reviews</span>
-        <span class="pill" style="background:#f0f3fb;color:var(--primary);"><i class="fa-solid fa-chart-line"></i> Lead Gen</span>
-        <span class="pill" style="background:#fff7f0;color:var(--orange);"><i class="fa-solid fa-globe"></i> Brand Awareness</span>
-        <span class="pill" style="background:#f0f3fb;color:var(--primary);"><i class="fa-solid fa-graduation-cap"></i> Engagement</span>
+        <span class="pill border border-white/20 bg-slate-900/50 text-blue-50 backdrop-blur-md shadow-lg"><i class="fa-solid fa-bullhorn text-blue-300"></i> Referrals</span>
+        <span class="pill border border-white/20 bg-slate-900/50 text-blue-50 backdrop-blur-md shadow-lg"><i class="fa-solid fa-star text-orange-400"></i> Reviews</span>
+        <span class="pill border border-white/20 bg-slate-900/50 text-blue-50 backdrop-blur-md shadow-lg"><i class="fa-solid fa-graduation-cap text-yellow-400"></i> Enrolment</span>
       </div>
     </div>
 
-    <!-- RIGHT - floating cards (desktop) -->
-    <div class="hero-floats relative h-[460px]" style="display:none;animation:fadeUp .7s .15s ease both">
-      <!-- centre badge -->
-      <div id="hero-badge" class="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div class="w-32 h-32 rounded-full flex flex-col items-center justify-center text-center shadow-lg" style="background:linear-gradient(135deg,var(--orange),#e55f10);animation:pulseGlow 2.5s infinite">
-          <div class="text-xs text-white/80 font-medium">Earn Up to</div>
-          <div class="text-3xl font-black text-white">£1,260</div>
+    <!-- RIGHT FLOATING BENTO (Desktop) -->
+    <div class="hero-floats relative h-[560px] w-full" style="animation:fadeUp .7s .15s ease both">
+
+      <!-- Balance Card (Top Left) -->
+      <div id="hero-badge" class="absolute top-8 left-0 z-30 w-72 p-6 rounded-[2rem] border border-white/20 float-a" style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2);">
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-slate-400 text-xs font-bold uppercase tracking-widest">Total Earnings</span>
+          <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 text-[9px] font-black uppercase tracking-wider rounded-full border border-emerald-500/30 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Live</span>
+        </div>
+        <div class="text-5xl font-black text-white mb-2 tracking-tight">£1,260<span class="text-2xl text-white/40">.00</span></div>
+        <div class="text-emerald-400 text-xs mb-6 font-bold"><i class="fa-solid fa-arrow-trend-up mr-1"></i> +£125 this week</div>
+        <button class="w-full py-3 rounded-xl bg-orange-500 text-white text-sm font-bold shadow-lg shadow-orange-500/25 transition hover:bg-orange-400">Withdraw Funds</button>
+      </div>
+
+      <!-- Activity Card (Bottom Right) -->
+      <div class="absolute bottom-6 right-0 z-20 w-80 p-5 rounded-[1.5rem] border border-white/20 float-b" style="background: rgba(38, 58, 127, 0.6); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px); box-shadow: 0 40px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);">
+        <h4 class="text-white font-semibold text-sm mb-4">Recent Activity</h4>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 bg-white/5 rounded-xl p-2.5 border border-white/5">
+             <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs"><i class="fa-solid fa-graduation-cap"></i></div>
+             <div class="flex-1">
+                <div class="text-white font-bold text-xs">UK Enrolment</div>
+                <div class="text-slate-300 text-[10px]">Sarah Jenkins</div>
+             </div>
+             <div class="text-emerald-400 font-black text-sm">+£500</div>
+          </div>
+          <div class="flex items-center gap-3 bg-white/5 rounded-xl p-2.5 border border-white/5">
+             <div class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs"><i class="fa-solid fa-user-plus"></i></div>
+             <div class="flex-1">
+                <div class="text-white font-bold text-xs">Lead Referral</div>
+                <div class="text-slate-300 text-[10px]">James Smith</div>
+             </div>
+             <div class="text-white font-black text-sm">+£5</div>
+          </div>
         </div>
       </div>
-      <div class="absolute top-4 left-6 float-a">
-        <div class="card px-6 py-5 w-44 card-orange">
-          <div class="text-xs text-slate-400 mb-1 font-medium">Per Review</div>
-          <div class="text-4xl font-black" style="color:var(--orange)">£10</div>
-          <div class="text-xs text-slate-400 mt-1">Gift card reward</div>
+
+      <!-- Tier Badge (Top Right) -->
+      <div class="absolute top-16 right-4 z-10 w-48 p-4 rounded-[1.5rem] border border-orange-500/30 float-c" style="background: rgba(243, 113, 36, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center text-lg shadow-lg shadow-orange-500/40"><i class="fa-solid fa-trophy"></i></div>
+          <div>
+            <div class="text-orange-300 text-[10px] font-black uppercase tracking-wider">Current Tier</div>
+            <div class="text-white font-bold text-sm">Gold Status</div>
+          </div>
         </div>
       </div>
-      <div class="absolute top-10 right-2 float-b">
-        <div class="card px-6 py-5 w-44 card-orange">
-          <div class="text-xs text-slate-400 mb-1 font-medium">Per Lead</div>
-          <div class="text-4xl font-black" style="color:var(--orange)">£5</div>
-          <div class="text-xs text-slate-400 mt-1">Unlimited referrals</div>
+
+      <!-- Live Notification (Bottom Left) -->
+      <div class="absolute bottom-28 -left-4 z-40 w-56 p-3 rounded-2xl border border-emerald-500/30 float-d flex items-center gap-3" style="background: rgba(16, 185, 129, 0.2); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+        <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white text-xs shadow-lg shadow-emerald-500/40"><i class="fa-solid fa-check"></i></div>
+        <div>
+          <div class="text-white font-bold text-xs">Payout Sent</div>
+          <div class="text-emerald-200 text-[10px]">Processed to Bank</div>
         </div>
       </div>
-      <div class="absolute bottom-20 left-2 float-c">
-        <div class="card px-6 py-5 w-48 card-orange">
-          <div class="text-xs text-slate-400 mb-1 font-medium">UK Home Enrolment</div>
-          <div class="text-4xl font-black" style="color:var(--orange)">£500</div>
-          <div class="text-xs text-slate-400 mt-1">Per successful student</div>
-        </div>
-      </div>
-      <div class="absolute bottom-4 right-0 float-d">
-        <div class="card px-6 py-5 w-52 card-orange">
-          <div class="text-xs text-slate-400 mb-1 font-medium">International / Master's</div>
-          <div class="text-4xl font-black" style="color:var(--orange)">£750</div>
-          <div class="text-xs text-slate-400 mt-1">Maximum reward</div>
-        </div>
-      </div>
+
     </div>
 
-    <!-- RIGHT - 2×2 grid (mobile/tablet) -->
-    <div class="hero-grid grid grid-cols-2 gap-3 sm:gap-4" style="display:none;animation:fadeUp .7s .2s ease both">
-      <div class="card p-4 sm:p-5 text-center card-orange float-d">
-        <div class="text-xs text-slate-400 mb-1">Per Review</div>
-        <div class="text-3xl font-black" style="color:var(--orange)">£10</div>
-        <div class="text-xs text-slate-400 mt-1">Gift card</div>
-      </div>
-      <div class="card p-4 sm:p-5 text-center card-orange float-d" style="animation-delay:.3s">
-        <div class="text-xs text-slate-400 mb-1">Per Lead</div>
-        <div class="text-3xl font-black" style="color:var(--orange)">£5</div>
-        <div class="text-xs text-slate-400 mt-1">Unlimited</div>
-      </div>
-      <div class="card p-4 sm:p-5 text-center card-orange float-d" style="animation-delay:.6s">
-        <div class="text-xs text-slate-400 mb-1">UK Home</div>
-        <div class="text-3xl font-black" style="color:var(--orange)">£500</div>
-        <div class="text-xs text-slate-400 mt-1">Enrolment</div>
-      </div>
-      <div class="card p-4 sm:p-5 text-center card-orange float-d" style="animation-delay:.9s">
-        <div class="text-xs text-slate-400 mb-1">Intl / Master's</div>
-        <div class="text-3xl font-black" style="color:var(--orange)">£750</div>
-        <div class="text-xs text-slate-400 mt-1">Max reward</div>
-      </div>
+    <!-- MOBILE UI (Visible only on mobile/tablet) -->
+    <div class="lg:hidden w-full max-w-md mx-auto mt-8" style="animation:fadeUp .7s .4s ease both">
+       <div class="rounded-[2rem] p-6 text-center border border-white/20 shadow-2xl relative overflow-hidden" style="background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(24px);">
+          <div class="absolute -right-20 -top-20 w-64 h-64 rounded-full bg-orange-500/20 blur-3xl pointer-events-none"></div>
+          <div class="text-slate-300 text-xs font-bold uppercase tracking-widest mb-3">Total Earnings</div>
+          <div class="text-6xl font-black text-white mb-2 tracking-tight">£1,260</div>
+          <div class="text-emerald-400 text-sm mb-6 font-bold"><i class="fa-solid fa-arrow-trend-up mr-1"></i> +£125 this week</div>
+          <button class="w-full py-4 rounded-xl bg-orange-500 text-white text-sm font-bold shadow-lg shadow-orange-500/25 transition hover:bg-orange-400 relative z-10">Withdraw Funds</button>
+       </div>
     </div>
-  </div>
-
-  <!-- Scroll hint -->
-  <div class="hidden sm:flex flex-col items-center gap-2 absolute bottom-6 left-1/2 -translate-x-1/2 z-10" style="animation:fadeUp .7s .5s ease both">
-    <span class="text-slate-300 text-xs font-medium tracking-widest uppercase">Scroll</span>
-    <div class="scroll-box"><div class="scroll-dot"></div></div>
   </div>
 </section>
 
@@ -950,7 +929,7 @@ document.getElementById('join-form').addEventListener('submit', e => {
 const isHoverable = !window.matchMedia('(hover:none)').matches;
 if (isHoverable) {
   // Premium 3D Card Tilt with Dynamic Glare
-  document.querySelectorAll('.card').forEach(c => {
+  document.querySelectorAll('.card, .card-dark').forEach(c => {
     const glare = document.createElement('div');
     glare.style.cssText = 'position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 0.4s;mix-blend-mode:overlay;z-index:10;border-radius:inherit;';
     c.appendChild(glare);

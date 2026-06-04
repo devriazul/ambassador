@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Ambassador Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="shared.css">
+</head>
+<body class="bg-slate-900 text-slate-200 flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-950/80 border-r border-white/10 p-6 flex-shrink-0 flex flex-col">
+        <div class="flex items-center gap-3 mb-10">
+            <img src="../logo.png" alt="BHE Uni" class="h-9 w-auto object-contain brightness-0 invert opacity-90"
+                 onerror="this.parentElement.outerHTML='<span style=\'color:#fff;font-weight:800;font-size:1.1rem;\'><i class=\'fa-solid fa-graduation-cap text-blue-500 mr-2\'></i>BHE Uni</span>'"/>
+        </div>
+        <nav class="flex flex-col gap-2">
+            <a href="index.html" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+            <a href="referrals.html" class="nav-link"><i class="fa-solid fa-user-plus"></i> Referrals</a>
+            <a href="reviews.html" class="nav-link"><i class="fa-solid fa-star"></i> Reviews</a>
+            <a href="wallet.html" class="nav-link"><i class="fa-solid fa-wallet"></i> Wallet & Payouts</a>
+            <a href="settings.html" class="nav-link active"><i class="fa-solid fa-gear"></i> Settings</a>
+        </nav>
+        <div class="mt-auto">
+            <div class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5">
+                <div class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold">AM</div>
+                <div>
+                    <p class="text-white font-bold text-sm">Alex Morgan</p>
+                    <a href="login.html" class="text-slate-400 text-xs hover:text-blue-400">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8 overflow-y-auto">
+        <header class="mb-8">
+            <h1 class="text-3xl font-black text-white">Account Settings</h1>
+            <p class="text-slate-400">Update your personal details and payout preferences.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Profile Config -->
+            <div class="student-card">
+                <h3 class="font-bold text-white mb-6 border-b border-white/10 pb-2">Profile Information</h3>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Full Name</label>
+                        <input type="text" class="student-input w-full" value="Alex Morgan">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">University Email (Read-only)</label>
+                        <input type="email" class="student-input w-full bg-slate-800 text-slate-500" value="alex.m@university.com" readonly>
+                    </div>
+                    <button type="button" class="student-btn bg-blue-600 hover:bg-blue-500 text-white mt-4">Save Profile</button>
+                </form>
+            </div>
+
+            <!-- Payout Details -->
+            <div class="student-card">
+                <h3 class="font-bold text-white mb-6 border-b border-white/10 pb-2">Bank Details</h3>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Account Holder Name</label>
+                        <input type="text" class="student-input w-full" value="Alexander Morgan">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-1">Sort Code</label>
+                            <input type="text" class="student-input w-full" value="20-45-14">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-1">Account Number</label>
+                            <input type="password" class="student-input w-full" value="12345678">
+                        </div>
+                    </div>
+                    <button type="button" class="student-btn bg-blue-600 hover:bg-blue-500 text-white mt-4">Update Bank Info</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

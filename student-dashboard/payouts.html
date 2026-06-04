@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Payouts - BHE Uni</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="shared.css">
+</head>
+<body class="bg-slate-900 text-slate-200 flex h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-950/80 border-r border-white/10 p-6 flex-shrink-0 flex flex-col">
+        <div class="flex items-center gap-3 mb-10">
+            <img src="../logo.png" alt="BHE Uni" class="h-9 w-auto object-contain brightness-0 invert opacity-90"
+                 onerror="this.parentElement.outerHTML='<span style=\'color:#fff;font-weight:800;font-size:1.2rem;letter-spacing:-0.5px\'><i class=\'fa-solid fa-graduation-cap text-orange-500 mr-2\'></i>BHE Uni</span>'"/>
+        </div>
+        <nav class="flex flex-col gap-2">
+            <a href="index.html" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+            <a href="ambassadors.html" class="nav-link"><i class="fa-solid fa-users"></i> Ambassadors</a>
+            <a href="referrals.html" class="nav-link"><i class="fa-solid fa-user-plus"></i> Referrals</a>
+            <a href="reviews.html" class="nav-link"><i class="fa-solid fa-star"></i> Reviews</a>
+            <a href="payouts.html" class="nav-link active"><i class="fa-solid fa-money-bill-transfer"></i> Payouts</a>
+            <a href="settings.html" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+        </nav>
+        <div class="mt-auto">
+            <div class="flex items-center gap-3 p-3 rounded-xl bg-white/5">
+                <img src="https://i.pravatar.cc/40?u=admin" alt="Admin" class="w-10 h-10 rounded-full">
+                <div>
+                    <p class="text-white font-bold text-sm">Admin User</p>
+                    <a href="login.html" class="text-slate-400 text-xs hover:text-orange-400">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8 overflow-y-auto">
+        <header class="mb-8">
+            <h1 class="text-3xl font-black text-white">Payout Requests</h1>
+            <p class="text-slate-400">Process ambassador withdrawal requests.</p>
+        </header>
+
+        <!-- Table -->
+        <div class="admin-card p-0">
+            <div class="p-4 border-b border-white/10 flex gap-4">
+                <input type="text" placeholder="Search by name or ID..." class="admin-input flex-1">
+                <select class="admin-input">
+                    <option>All Statuses</option>
+                    <option>Pending</option>
+                    <option>Processing</option>
+                    <option>Completed</option>
+                </select>
+            </div>
+            <table class="w-full text-sm text-left">
+                <thead class="text-xs text-slate-400 uppercase bg-white/5">
+                    <tr>
+                        <th scope="col" class="p-4">Ambassador</th>
+                        <th scope="col" class="p-4">Amount</th>
+                        <th scope="col" class="p-4">Method</th>
+                        <th scope="col" class="p-4">Date Requested</th>
+                        <th scope="col" class="p-4">Status</th>
+                        <th scope="col" class="p-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b border-white/10 hover:bg-white/5">
+                        <td class="p-4 font-bold text-white">Chloe Kim</td>
+                        <td class="p-4 font-black text-emerald-400">£150.00</td>
+                        <td class="p-4">Bank Transfer</td>
+                        <td class="p-4">2024-05-22</td>
+                        <td class="p-4"><span class="status-badge bg-yellow-500/20 text-yellow-400">Pending</span></td>
+                        <td class="p-4">
+                            <button class="admin-btn bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 text-xs">Process</button>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-white/10 hover:bg-white/5">
+                        <td class="p-4 font-bold text-white">David Chen</td>
+                        <td class="p-4 font-black text-emerald-400">£500.00</td>
+                        <td class="p-4">PayPal</td>
+                        <td class="p-4">2024-05-20</td>
+                        <td class="p-4"><span class="status-badge bg-emerald-500/20 text-emerald-400">Completed</span></td>
+                        <td class="p-4"><button class="admin-btn-sm"><i class="fa-solid fa-eye"></i></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>
