@@ -1,0 +1,87 @@
+Diagram 6: Lead Status Lifecycle (State Machine Diagram)
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                    LEAD STATUS LIFECYCLE – STATE MACHINE                             │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+                                      ┌─────────────────┐
+                                      │                 │
+                                      │   SUBMITTED     │
+                                      │   (Initial)     │
+                                      │                 │
+                                      └────────┬────────┘
+                                               │
+                          ┌────────────────────┼────────────────────┐
+                          │                    │                    │
+                          ▼                    ▼                    ▼
+                 ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+                 │                 │  │                 │  │                 │
+                 │    VERIFIED     │  │    REJECTED     │  │   DUPLICATE     │
+                 │                 │  │                 │  │                 │
+                 └────────┬────────┘  └────────┬────────┘  └────────┬────────┘
+                          │                    │                    │
+                          │                    │                    │
+                          ▼                    ▼                    ▼
+                 ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+                 │                 │  │                 │  │                 │
+                 │   CONTACTED     │  │  [TERMINAL]     │  │  [TERMINAL]     │
+                 │                 │  │  No Reward      │  │  No Reward      │
+                 └────────┬────────┘  └─────────────────┘  └─────────────────┘
+                          │
+                          ▼
+                 ┌─────────────────┐
+                 │                 │
+                 │   APPLICATION   │
+                 │    STARTED      │
+                 │                 │
+                 └────────┬────────┘
+                          │
+                          ▼
+                 ┌─────────────────┐
+                 │                 │
+                 │   OFFER ISSUED  │
+                 │                 │
+                 └────────┬────────┘
+                          │
+            ┌─────────────┼─────────────┐
+            │             │             │
+            ▼             ▼             ▼
+    ┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+    │             │ │             │ │             │
+    │  ENROLLED   │ │  WITHDRAWN  │ │   EXPIRED   │
+    │             │ │             │ │ (90 days)   │
+    └──────┬──────┘ └──────┬──────┘ └──────┬──────┘
+           │               │               │
+           ▼               ▼               ▼
+    ┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+    │             │ │             │ │             │
+    │ REWARD      │ │ REWARD      │ │  [TERMINAL] │
+    │ PENDING     │ │ REVERSED    │ │  No Reward  │
+    │             │ │ (clawback)  │ │             │
+    └──────┬──────┘ └─────────────┘ └─────────────┘
+           │
+           ▼
+    ┌─────────────┐
+    │             │
+    │ REWARD PAID │
+    │             │
+    │ [TERMINAL]  │
+    └─────────────┘
+
+    ┌─────────────────────────────────────────────────────────────────────────────────┐
+    │                              STATE TRANSITION LEGEND                             │
+    ├─────────────────────────────────────────────────────────────────────────────────┤
+    │                                                                                  │
+    │  SUBMITTED → VERIFIED    : Passed duplicate + fraud checks                      │
+    │  SUBMITTED → REJECTED    : Failed validation (invalid contact, no consent)      │
+    │  SUBMITTED → DUPLICATE   : Email/phone already exists in CRM                    │
+    │  VERIFIED → CONTACTED    : CRM outreach made                                    │
+    │  CONTACTED → APPLICATION : Student started application form                     │
+    │  APPLICATION → OFFER     : University issued offer letter                       │
+    │  OFFER → ENROLLED        : Student accepted offer and paid fees                 │
+    │  ENROLLED → REWARD_PENDING : System queues reward payment                       │
+    │  REWARD_PENDING → REWARD_PAID : Payment successfully processed                  │
+    │  ENROLLED → WITHDRAWN    : Student withdrew within cooling-off period           │
+    │  WITHDRAWN → REWARD_REVERSED : Clawback of enrolment reward                     │
+    │  Any non-terminal → EXPIRED : No progress for 90 days                           │
+    │                                                                                  │
+    └─────────────────────────────────────────────────────────────────────────────────┘

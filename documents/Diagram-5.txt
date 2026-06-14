@@ -1,0 +1,98 @@
+Diagram 5: CRM Integration & Enrolment Confirmation (Sequence Diagram)
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                              CRM INTEGRATION & ENROLMENT CONFIRMATION – SEQUENCE DIAGRAM             │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
+│ Referral │    │  Kafka   │    │ iCARE    │    │University│    │ Reward   │    │Ambassador│
+│ Service  │    │(Message  │    │  CRM     │    │ Portal   │    │ Service  │    │ Notify   │
+│          │    │  Queue)  │    │          │    │          │    │          │    │          │
+└────┬─────┘    └────┬─────┘    └────┬─────┘    └────┬─────┘    └────┬─────┘    └────┬─────┘
+     │               │               │               │               │               │
+     │ Lead Verified │               │               │               │               │
+     │ (Status:      │               │               │               │               │
+     │ VERIFIED)     │               │               │               │               │
+     │               │               │               │               │               │
+     │ Publish to    │               │               │               │               │
+     │ "lead.verified"│              │               │               │               │
+     │ topic         │               │               │               │               │
+     ├──────────────>│               │               │               │               │
+     │               │               │               │               │               │
+     │               │ Consume       │               │               │               │
+     │               │ & Transform   │               │               │               │
+     │               │               │               │               │               │
+     │               │ POST /api/    │               │               │               │
+     │               │ lead/create   │               │               │               │
+     │               ├──────────────>│               │               │               │
+     │               │               │               │               │               │
+     │               │               │ Store Lead    │               │               │
+     │               │               │ with Source:  │               │               │
+     │               │               │ "AMBASSADOR"  │               │               │
+     │               │               │               │               │               │
+     │               │ {leadId,      │               │               │               │
+     │               │ success}      │               │               │               │
+     │               │<──────────────┤               │               │               │
+     │               │               │               │               │               │
+     │ [Periodic Sync]               │               │               │               │
+     │               │               │               │               │               │
+     │               │               │ GET /         │               │               │
+     │               │               │ applications/ │               │               │
+     │               │               │ status?source=│               │               │
+     │               │               │ AMBASSADOR    │               │               │
+     │               │               ├──────────────>│               │               │
+     │               │               │               │               │               │
+     │               │               │               │ Return list   │               │
+     │               │               │               │ of offers &   │               │
+     │               │               │               │ enrolments    │               │
+     │               │               │<──────────────┤               │               │
+     │               │               │               │               │               │
+     │               │               │ Identify      │               │               │
+     │               │               │ New Enrolment │               │               │
+     │               │               │ (Status:      │               │               │
+     │               │               │ ENROLLED)     │               │               │
+     │               │               │               │               │               │
+     │               │               │ Publish to    │               │               │
+     │               │               │ "enrolment.   │               │               │
+     │               │               │ confirmed"    │               │               │
+     │               │               │ topic         │               │               │
+     │               │<──────────────┤               │               │               │
+     │               │               │               │               │               │
+     │ Consume       │               │               │               │               │
+     │ "enrolment.   │               │               │               │               │
+     │ confirmed"    │               │               │               │               │
+     │<──────────────┤               │               │               │               │
+     │               │               │               │               │               │
+     │ Update Lead   │               │               │               │               │
+     │ Status to     │               │               │               │               │
+     │ ENROLLED      │               │               │               │               │
+     │               │               │               │               │               │
+     │ Trigger       │               │               │               │               │
+     │ Reward        │               │               │               │               │
+     │ Processing    │               │               │               │               │
+     │               │               │               │               │               │
+     │ POST /reward/ │               │               │               │               │
+     │ enrolment     │               │               │               │               │
+     ├──────────────────────────────────────────────────────────────>│               │
+     │               │               │               │               │               │
+     │               │               │               │               │ Calculate     │
+     │               │               │               │               │ Reward Amount │
+     │               │               │               │               │ (UK/Intl/PG)  │
+     │               │               │               │               │               │
+     │               │               │               │               │ Add to        │
+     │               │               │               │               │ Ambassador    │
+     │               │               │               │               │ Wallet        │
+     │               │               │               │               │               │
+     │               │               │               │               │ Publish to    │
+     │               │               │               │               │ "reward.paid" │
+     │               │               │               │               │ topic         │
+     │               │               │               │               │               │
+     │               │               │               │               │               │
+     │<─────────────────────────────────────────────────────────────────────────────┤
+     │               │               │               │               │               │ (Push Notify)
+     │               │               │               │               │               │
+     │               │               │               │               │               │ "Congratulations!
+     │               │               │               │               │               │ Your referral
+     │               │               │               │               │               │ has enrolled.
+     │               │               │               │               │               │ £500 added."
+     │               │               │               │               │               │
+     ▼               ▼               ▼               ▼               ▼               ▼

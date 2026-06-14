@@ -1,0 +1,35 @@
+# Databases
+*.db
+*.sqlite3
+
+# Node modules
+node_modules/
+dist/
+.next/
+out/
+
+# Python cache & virtualenvs
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+ENV/
+env/
+
+# Environments
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git backups
+.git_backup/
+*/.git_backup/
+

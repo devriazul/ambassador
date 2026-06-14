@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: affiliate_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: affiliate
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./affiliate-backend
+    container_name: affiliate_backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/affiliate
+      - SECRET_KEY=super_secret_cryptographic_key_for_bhe_uni_ambassador_programme_2026
+    depends_on:
+      - db
+
+volumes:
+  pgdata:

@@ -1,0 +1,101 @@
+Diagram 4: Referral Submission & Reward Payment (Sequence Diagram)
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                              REFERRAL SUBMISSION & REWARD PAYMENT – SEQUENCE DIAGRAM                 │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
+│Ambassador│    │  Mobile  │    │ Referral │    │  Fraud   │    │  Wallet  │    │  Bank    │
+│          │    │   App    │    │ Service  │    │ Service  │    │ Service  │    │  API     │
+└────┬─────┘    └────┬─────┘    └────┬─────┘    └────┬─────┘    └────┬─────┘    └────┬─────┘
+     │               │               │               │               │               │
+     │ Submit Lead   │               │               │               │               │
+     │ (Name, Email, │               │               │               │               │
+     │ Phone,Consent)│               │               │               │               │
+     ├──────────────>│               │               │               │               │
+     │               │               │               │               │               │
+     │               │ POST /referral│               │               │               │
+     │               ├──────────────>│               │               │               │
+     │               │               │               │               │               │
+     │               │               │ POST /fraud-  │               │               │
+     │               │               │ check         │               │               │
+     │               │               ├──────────────>│               │               │
+     │               │               │               │               │               │
+     │               │               │               │ Duplicate     │               │
+     │               │               │               │ + Velocity    │               │
+     │               │               │               │ Check         │               │
+     │               │               │               │               │               │
+     │               │               │ {valid: true} │               │               │
+     │               │               │<──────────────┤               │               │
+     │               │               │               │               │               │
+     │               │               │ Save Lead     │               │               │
+     │               │               │ (Status:      │               │               │
+     │               │               │ SUBMITTED)    │               │               │
+     │               │               │               │               │               │
+     │               │               │ Queue to CRM  │               │               │
+     │               │               │ Sync          │               │               │
+     │               │               │               │               │               │
+     │               │ {success,     │               │               │               │
+     │               │ leadId}       │               │               │               │
+     │               │<──────────────┤               │               │               │
+     │               │               │               │               │               │
+     │ {leadId,      │               │               │               │               │
+     │ status:       │               │               │               │               │
+     │ SUBMITTED}    │               │               │               │               │
+     │<──────────────┤               │               │               │               │
+     │               │               │               │               │               │
+     │               │               │               │               │               │
+     │ [Later: Lead becomes VERIFIED]                │               │               │
+     │               │               │               │               │               │
+     │               │               │ Update Status │               │               │
+     │               │               │ to VERIFIED   │               │               │
+     │               │               │               │               │               │
+     │               │               │ POST /reward/lead/{leadId}      │               │
+     │               │               ├───────────────────────────────>│               │
+     │               │               │               │               │               │
+     │               │               │               │               │ Add £5 to     │
+     │               │               │               │               │ Wallet        │
+     │               │               │               │               │               │
+     │               │               │ {walletBalance}│               │               │
+     │               │               │<───────────────────────────────┤               │
+     │               │               │               │               │               │
+     │ [Later: Student Enrols]       │               │               │               │
+     │               │               │               │               │               │
+     │               │               │ Enrolment     │               │               │
+     │               │               │ Confirmation  │               │               │
+     │               │               │ (CRM Webhook) │               │               │
+     │               │               │               │               │               │
+     │               │               │ Update Status │               │               │
+     │               │               │ to ENROLLED   │               │               │
+     │               │               │               │               │               │
+     │               │               │ POST /reward/ │               │               │
+     │               │               │ enrolment/    │               │               │
+     │               │               │ {leadId}      │               │               │
+     │               │               ├───────────────────────────────>│               │
+     │               │               │               │               │               │
+     │               │               │               │               │ Add £500/750  │
+     │               │               │               │               │ to Wallet     │
+     │               │               │               │               │               │
+     │ Ambassador    │               │               │               │               │
+     │ requests      │               │               │               │               │
+     │ withdrawal    │               │               │               │               │
+     ├──────────────>│               │               │               │               │
+     │               │ POST /wallet/ │               │               │               │
+     │               │ withdraw      │               │               │               │
+     │               ├───────────────────────────────>│               │               │
+     │               │               │               │               │               │
+     │               │               │               │               │ Validate      │
+     │               │               │               │               │ Balance ≥£20  │
+     │               │               │               │               │               │
+     │               │               │               │               │ POST /payout  │
+     │               │               │               │               ├──────────────>│
+     │               │               │               │               │               │
+     │               │               │               │               │ {success}     │
+     │               │               │               │               │<──────────────┤
+     │               │               │               │               │               │
+     │               │               │               │               │ Deduct Wallet │
+     │               │               │               │               │               │
+     │ {withdrawal   │               │               │               │               │
+     │ success}      │               │               │               │               │
+     │<──────────────┤               │               │               │               │
+     │               │               │               │               │               │
+     ▼               ▼               ▼               ▼               ▼               ▼

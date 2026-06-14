@@ -1,0 +1,236 @@
+Diagram 7: Reward Transaction Lifecycle (With Withdrawal Request Flow)
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                         REWARD TRANSACTION LIFECYCLE – STATE MACHINE (CORRECTED)                             │
+│                              With Withdrawal Request & Approval Flow                                         │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+                              ┌─────────────────────────────────────────────────────────────────┐
+                              │                                                                 │
+                              │                      EARNING REWARDS                            │
+                              │                                                                 │
+                              │  • Review Reward (£10)      → Added to Wallet                   │
+                              │  • Lead Reward (£5)         → Added to Wallet                   │
+                              │  • Enrolment Reward (£500+) → Added to Wallet                   │
+                              │                                                                 │
+                              └───────────────────────────────┬─────────────────────────────────┘
+                                                              │
+                                                              ▼
+                              ┌─────────────────────────────────────────────────────────────────┐
+                              │                                                                 │
+                              │                         WALLET BALANCE                          │
+                              │                      (Accumulated State)                        │
+                              │                                                                 │
+                              │  Ambassador can view balance at any time                        │
+                              │  No automatic payout                                            │
+                              │                                                                 │
+                              └───────────────────────────────┬─────────────────────────────────┘
+                                                              │
+                                                              │ Ambassador initiates
+                                                              │ "Request Withdrawal"
+                                                              ▼
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                                             │
+│  ┌─────────────────┐                                                                                        │
+│  │                 │                                                                                        │
+│  │  WITHDRAWAL     │                                                                                        │
+│  │  REQUESTED      │                                                                                        │
+│  │  (Initial)      │                                                                                        │
+│  │                 │                                                                                        │
+│  └────────┬────────┘                                                                                        │
+│           │                                                                                                 │
+│           │ System checks:                                                                                  │
+│           │ - Minimum withdrawal threshold? (e.g., £20)                                                     │
+│           │ - Ambassador identity verified?                                                                 │
+│           │ - No active fraud flag?                                                                         │
+│           │ - Bank/PayPal details provided?                                                                 │
+│           │                                                                                                 │
+│           ▼                                                                                                 │
+│  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐   │
+│  │                                                                                                      │   │
+│  │                              ┌─────────────────────┐                                                │   │
+│  │                              │                     │                                                │   │
+│  │                              │  ELIGIBILITY CHECK  │                                                │   │
+│  │                              │                     │                                                │   │
+│  │                              └──────────┬──────────┘                                                │   │
+│  │                                         │                                                           │   │
+│  │              ┌──────────────────────────┼──────────────────────────┐                                │   │
+│  │              │                          │                          │                                │   │
+│  │              ▼                          ▼                          ▼                                │   │
+│  │    ┌─────────────────┐        ┌─────────────────┐        ┌─────────────────┐                       │   │
+│  │    │                 │        │                 │        │                 │                       │   │
+│  │    │  PENDING_       │        │  INELIGIBLE     │        │  FLAGGED_       │                       │   │
+│  │    │  APPROVAL       │        │                 │        │  REVIEW        │                       │   │
+│  │    │                 │        │                 │        │                 │                       │   │
+│  │    └────────┬────────┘        └────────┬────────┘        └────────┬────────┘                       │   │
+│  │             │                          │                          │                                │   │
+│  │             │                          ▼                          ▼                                │   │
+│  │             │                 ┌─────────────────┐        ┌─────────────────┐                       │   │
+│  │             │                 │                 │        │                 │                       │   │
+│  │             │                 │  REJECTED       │        │  UNDER_REVIEW   │                       │   │
+│  │             │                 │  (Notify User)  │        │  (Compliance)   │                       │   │
+│  │             │                 │                 │        │                 │                       │   │
+│  │             │                 └────────┬────────┘        └────────┬────────┘                       │   │
+│  │             │                          │                          │                                │   │
+│  │             │                          │                          ├──────────────┐                 │   │
+│  │             │                          │                          │              │                 │   │
+│  │             │                          │                          ▼              ▼                 │   │
+│  │             │                          │                 ┌─────────────┐  ┌─────────────┐          │   │
+│  │             │                          │                 │             │  │             │          │   │
+│  │             │                          │                 │ REINSTATED  │  │  REJECTED   │          │   │
+│  │             │                          │                 │ (Approved)  │  │ (Confirmed) │          │   │
+│  │             │                          │                 │             │  │             │          │   │
+│  │             │                          │                 └──────┬──────┘  └──────┬──────┘          │   │
+│  │             │                          │                        │              │                   │   │
+│  │             │                          │                        └──────┬───────┘                   │   │
+│  │             │                          │                               │                           │   │
+│  │             ▼                          ▼                               ▼                           │   │
+│  │    ┌─────────────────────────────────────────────────────────────────────────────────────┐        │   │
+│  │    │                                                                                      │        │   │
+│  │    │                           APPROVAL DECISION POINT                                     │        │   │
+│  │    │                                                                                      │        │   │
+│  │    │              ┌─────────────────────────┐          ┌─────────────────────────┐        │        │   │
+│  │    │              │                         │          │                         │        │        │   │
+│  │    │              │      APPROVED           │          │      REJECTED           │        │        │   │
+│  │    │              │  (Withdrawal Authorised)│          │  (Withdrawal Denied)    │        │        │   │
+│  │    │              │                         │          │                         │        │        │   │
+│  │    │              └────────────┬────────────┘          └────────────┬────────────┘        │        │   │
+│  │    │                           │                                  │                       │        │   │
+│  │    │                           │                                  ▼                       │        │   │
+│  │    │                           │                         ┌─────────────────┐              │        │   │
+│  │    │                           │                         │                 │              │        │   │
+│  │    │                           │                         │ NOTIFY AMBASSADOR│              │        │   │
+│  │    │                           │                         │ "Reason: Minimum│              │        │   │
+│  │    │                           │                         │  withdrawal not │              │        │   │
+│  │    │                           │                         │  met / fraud"   │              │        │   │
+│  │    │                           │                         │                 │              │        │   │
+│  │    │                           │                         └─────────────────┘              │        │   │
+│  │    │                           │                                  │                        │        │   │
+│  │    │                           │                                  ▼                        │        │   │
+│  │    │                           │                         ┌─────────────────┐              │        │   │
+│  │    │                           │                         │                 │              │        │   │
+│  │    │                           │                         │   [TERMINAL]    │              │        │   │
+│  │    │                           │                         │  No Money Sent  │              │        │   │
+│  │    │                           │                         │                 │              │        │   │
+│  │    │                           │                         └─────────────────┘              │        │   │
+│  │    │                           │                                                           │        │   │
+│  │    │                           ▼                                                           │        │   │
+│  │    │              ┌─────────────────────────────────────────────────────────────────────┐  │        │   │
+│  │    │              │                                                                      │  │        │   │
+│  │    │              │                      MONEY TRANSFER PROCESS                          │  │        │   │
+│  │    │              │                                                                      │  │        │   │
+│  │    │              │  ┌─────────────────┐                                                │  │        │   │
+│  │    │              │  │                 │                                                │  │        │   │
+│  │    │              │  │  PROCESSING_    │                                                │  │        │   │
+│  │    │              │  │  PAYMENT        │                                                │  │        │   │
+│  │    │              │  │                 │                                                │  │        │   │
+│  │    │              │  └────────┬────────┘                                                │  │        │   │
+│  │    │              │           │                                                         │  │        │   │
+│  │    │              │           ▼                                                         │  │        │   │
+│  │    │              │  ┌─────────────────────────────────────────────────────────────┐   │  │        │   │
+│  │    │              │  │                                                              │   │  │        │   │
+│  │    │              │  │  ┌─────────────────┐      ┌─────────────────┐               │   │  │        │   │
+│  │    │              │  │  │                 │      │                 │               │   │  │        │   │
+│  │    │              │  │  │  SENT_TO_BANK   │      │   TRANSFER_     │               │   │  │        │   │
+│  │    │              │  │  │  (API Called)   │      │   FAILED        │               │   │  │        │   │
+│  │    │              │  │  │                 │      │                 │               │   │  │        │   │
+│  │    │              │  │  └────────┬────────┘      └────────┬────────┘               │   │  │        │   │
+│  │    │              │  │           │                        │                         │   │  │        │   │
+│  │    │              │  │           ▼                        ▼                         │   │  │        │   │
+│  │    │              │  │  ┌─────────────────┐      ┌─────────────────┐               │   │  │        │   │
+│  │    │              │  │  │                 │      │                 │               │   │  │        │   │
+│  │    │              │  │  │  CONFIRMED_     │      │  RETRY_         │               │   │  │        │   │
+│  │    │              │  │  │  RECEIVED       │      │  SCHEDULED      │               │   │  │        │   │
+│  │    │              │  │  │  (Money Sent)   │      │  (Max 3 retries)│               │   │  │        │   │
+│  │    │              │  │  │                 │      │                 │               │   │  │        │   │
+│  │    │              │  │  └────────┬────────┘      └────────┬────────┘               │   │  │        │   │
+│  │    │              │  │           │                        │                         │   │  │        │   │
+│  │    │              │  │           │              ┌─────────┴─────────┐               │   │  │        │   │
+│  │    │              │  │           │              │                   │               │   │  │        │   │
+│  │    │              │  │           │              ▼                   ▼               │   │  │        │   │
+│  │    │              │  │           │     ┌─────────────────┐   ┌─────────────────┐    │   │  │        │   │
+│  │    │              │  │           │     │                 │   │                 │    │   │  │        │   │
+│  │    │              │  │           │     │  RETRY_SUCCESS  │   │  PERMANENT_     │    │   │  │        │   │
+│  │    │              │  │           │     │  (Money Sent)   │   │  FAIL           │    │   │  │        │   │
+│  │    │              │  │           │     │                 │   │  (Manual Review)│    │   │  │        │   │
+│  │    │              │  │           │     └────────┬────────┘   └────────┬────────┘    │   │  │        │   │
+│  │    │              │  │           │              │                    │              │   │  │        │   │
+│  │    │              │  │           └──────────────┼────────────────────┘              │   │  │        │   │
+│  │    │              │  │                          │                                   │   │  │        │   │
+│  │    │              │  │                          ▼                                   │   │  │        │   │
+│  │    │              │  │              ┌─────────────────────────────────────┐         │   │  │        │   │
+│  │    │              │  │              │                                     │         │   │  │        │   │
+│  │    │              │  │              │         WITHDRAWAL_COMPLETE         │         │   │  │        │   │
+│  │    │              │  │              │      [TERMINAL – Money Sent]        │         │   │  │        │   │
+│  │    │              │  │              │                                     │         │   │  │        │   │
+│  │    │              │  │              │  • Wallet balance reduced           │         │   │  │        │   │
+│  │    │              │  │              │  • Transaction logged               │         │   │  │        │   │
+│  │    │              │  │              │  • Ambassador notified              │         │   │  │        │   │
+│  │    │              │  │              │                                     │         │   │  │        │   │
+│  │    │              │  │              └─────────────────────────────────────┘         │   │  │        │   │
+│  │    │              │  │                                                              │   │  │        │   │
+│  │    │              │  └─────────────────────────────────────────────────────────────┘   │  │        │   │
+│  │    │              │                                                                      │  │        │   │
+│  │    │              └─────────────────────────────────────────────────────────────────────┘  │        │   │
+│  │    │                                                                                           │        │   │
+│  │    └───────────────────────────────────────────────────────────────────────────────────────────┘        │   │
+│  │                                                                                                             │   │
+│  └─────────────────────────────────────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                                               │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+    │                                    REWARD TRANSITION LEGEND (CORRECTED)                                   │
+    ├─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+    │                                                                                                          │
+    │  ┌────────────────────────────────────────────────────────────────────────────────────────────────────┐ │
+    │  │                                   WITHDRAWAL REQUEST FLOW                                          │ │
+    │  ├────────────────────────────────────────────────────────────────────────────────────────────────────┤ │
+    │  │                                                                                                    │ │
+    │  │  WITHDRAWAL_REQUESTED → ELIGIBILITY CHECK : Ambassador clicks "Withdraw"                          │ │
+    │  │                                                                                                    │ │
+    │  │  ELIGIBILITY CHECK → PENDING_APPROVAL   : Passed (balance ≥£20, ID verified, bank details OK)    │ │
+    │  │  ELIGIBILITY CHECK → INELIGIBLE         : Failed minimum threshold                                │ │
+    │  │  ELIGIBILITY CHECK → FLAGGED_REVIEW     : Suspicious pattern / high velocity                       │ │
+    │  │                                                                                                    │ │
+    │  │  INELIGIBLE → REJECTED                  : System auto-rejects, notifies ambassador                │ │
+    │  │  REJECTED → [TERMINAL]                  : No money sent, ambassador can try again later           │ │
+    │  │                                                                                                    │ │
+    │  │  FLAGGED_REVIEW → UNDER_REVIEW          : Compliance officer assigned                             │ │
+    │  │  UNDER_REVIEW → REINSTATED              : Manual approval granted                                 │ │
+    │  │  UNDER_REVIEW → REJECTED                : Fraud confirmed, withdrawal denied                      │ │
+    │  │                                                                                                    │ │
+    │  │  PENDING_APPROVAL → APPROVED            : Finance/Admin approves withdrawal                       │ │
+    │  │  PENDING_APPROVAL → REJECTED            : Finance/Admin rejects (reason provided)                 │ │
+    │  │                                                                                                    │ │
+    │  └────────────────────────────────────────────────────────────────────────────────────────────────────┘ │
+    │                                                                                                          │
+    │  ┌────────────────────────────────────────────────────────────────────────────────────────────────────┐ │
+    │  │                                   MONEY TRANSFER FLOW                                               │ │
+    │  ├────────────────────────────────────────────────────────────────────────────────────────────────────┤ │
+    │  │                                                                                                    │ │
+    │  │  APPROVED → PROCESSING_PAYMENT         : Initiate bank transfer (Stripe/PayPal/BACS)              │ │
+    │  │  PROCESSING_PAYMENT → SENT_TO_BANK     : API call successful                                       │ │
+    │  │  PROCESSING_PAYMENT → TRANSFER_FAILED  : API error (wrong details, bank down)                      │ │
+    │  │                                                                                                    │ │
+    │  │  SENT_TO_BANK → CONFIRMED_RECEIVED     : Bank confirms transfer completed                         │ │
+    │  │  CONFIRMED_RECEIVED → WITHDRAWAL_COMPLETE : Final state, money in ambassador's account            │ │
+    │  │                                                                                                    │ │
+    │  │  TRANSFER_FAILED → RETRY_SCHEDULED     : Exponential backoff (1h, 6h, 24h)                        │ │
+    │  │  RETRY_SCHEDULED → RETRY_SUCCESS       : Retry successful → money sent                            │ │
+    │  │  RETRY_SCHEDULED → PERMANENT_FAIL      : 3 failed attempts → manual review required               │ │
+    │  │                                                                                                    │ │
+    │  └────────────────────────────────────────────────────────────────────────────────────────────────────┘ │
+    │                                                                                                          │
+    │  ┌────────────────────────────────────────────────────────────────────────────────────────────────────┐ │
+    │  │                                   KEY BUSINESS RULES                                               │ │
+    │  ├────────────────────────────────────────────────────────────────────────────────────────────────────┤ │
+    │  │                                                                                                    │ │
+    │  │  Rule 1: Minimum Withdrawal Threshold = £20                                                       │ │
+    │  │  Rule 2: Maximum Withdrawal per Request = £5,000                                                  │ │
+    │  │  Rule 3: Maximum Withdrawals per Month = 4                                                        │ │
+    │  │  Rule 4: First withdrawal requires ID verification                                                │ │
+    │  │  Rule 5: Withdrawals over £1,000 require manager approval                                         │ │
+    │  │  Rule 6: Bank account must match ambassador's registered name                                     │ │
+    │  │  Rule 7: Withdrawal requests are irreversible once APPROVED                                       │ │
+    │  │                                                                                                    │ │
+    │  └────────────────────────────────────────────────────────────────────────────────────────────────────┘ │

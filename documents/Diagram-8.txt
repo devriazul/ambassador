@@ -1,0 +1,96 @@
+Diagram 8: Use Case Diagram – System Actors & Functions
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                         BHE UNI AMBASSADOR PROGRAMME – USE CASE DIAGRAM                                  │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+                                                              ┌─────────────────────────────────────────────┐
+                                                              │              BHE UNI SYSTEM                  │
+                                                              │                                             │
+┌─────────────────────────────┐                              │  ┌─────────────────────────────────────────┐│
+│                             │                              │  │         Ambassador Functions            ││
+│         AMBASSADOR          │                              │  │                                         ││
+│        (Student/Alumni)     │                              │  │  • Register Account                     ││
+│                             │                              │  │  • Submit Referral                      ││
+│ ┌─────────────────────────┐ │                              │  │  • Upload Review Screenshot             ││
+│ │ • Register Account      │ │                              │  │  • Track Lead Status                    ││
+│ │ • Submit Referral       │ │                              │  │  • View Dashboard                       ││
+│ │ • Upload Review         │◄┼─────────────────────────────────── │  • Check Earnings                        ││
+│ │ • Track Status          │ │                              │  │  • Redeem Rewards                       ││
+│ │ • View Dashboard        │ │                              │  │  • Withdraw Funds                       ││
+│ │ • Redeem Rewards        │ │                              │  │  • View Leaderboard                     ││
+│ │ • Withdraw Funds        │ │                              │  │  • Participate in Campaigns             ││
+│ │ • View Leaderboard      │ │                              │  └─────────────────────────────────────────┘│
+│ │                         │ │                              │                                             │
+│ └─────────────────────────┘ │                              │  ┌─────────────────────────────────────────┐│
+│                             │                              │  │         Compliance Functions             ││
+└─────────────────────────────┘                              │  │                                         ││
+                                                              │  │  • Review Flagged Leads                  ││
+┌─────────────────────────────┐                              │  │  • Verify Review Screenshots             ││
+│                             │                              │  │  • Conduct Fraud Investigation           ││
+│       COMPLIANCE OFFICER    │                              │  │  • Manage Consent Records                ││
+│                             │                              │  │  • Export Audit Logs                     ││
+│ ┌─────────────────────────┐ │                              │  └─────────────────────────────────────────┘│
+│ │ • Review Flagged Leads  │◄┼───────────────────────────────────                                          │
+│ │ • Verify Reviews        │ │                              │  ┌─────────────────────────────────────────┐│
+│ │ • Investigate Fraud     │ │                              │  │         Recruitment Functions            ││
+│ │ • Manage Consent        │ │                              │  │                                         ││
+│ │ • Export Audit Logs     │ │                              │  │  • Review Leads                         ││
+│ │                         │ │                              │  │  • Update Lead Status                    ││
+│ └─────────────────────────┘ │                              │  │  • Monitor Conversions                   ││
+│                             │                              │  │  • Approve Enrolment Rewards              ││
+└─────────────────────────────┘                              │  │  • Generate Reports                      ││
+                                                              │  └─────────────────────────────────────────┘│
+┌─────────────────────────────┐                              │                                             │
+│                             │                              │  ┌─────────────────────────────────────────┐│
+│      RECRUITMENT OFFICER    │                              │  │         System Admin Functions           ││
+│                             │                              │  │                                         ││
+│ ┌─────────────────────────┐ │                              │  │  • Manage Users                         ││
+│ │ • Review Leads          │◄┼─────────────────────────────────── │  • Configure Rewards                     ││
+│ │ • Update Lead Status    │ │                              │  │  • Monitor System Health                 ││
+│ │ • Monitor Conversions   │ │                              │  │  • Manage API Integrations               ││
+│ │ • Approve Enrolments    │ │                              │  │  • View System Analytics                 ││
+│ │ • Generate Reports      │ │                              │  │  • Manage Security                       ││
+│ │                         │ │                              │  └─────────────────────────────────────────┘│
+│ └─────────────────────────┘ │                              │                                             │
+│                             │                              └─────────────────────────────────────────────┘
+└─────────────────────────────┘                                                  │
+                                                                                 │
+┌─────────────────────────────┐                              ┌─────────────────────────────────────────────────┐
+│                             │                              │                                                 │
+│      SYSTEM ADMINISTRATOR   │                              │                    EXTERNAL ACTORS               │
+│                             │                              │                                                 │
+│ ┌─────────────────────────┐ │                              │  ┌─────────────────┐      ┌─────────────────┐   │
+│ │ • Manage Users          │ │                              │  │                 │      │                 │   │
+│ │ • Configure Rewards     │ │                              │  │   iCARE CRM     │      │   University    │   │
+│ │ • Monitor System Health │ │                              │  │   System        │      │   Portal        │   │
+│ │ • Manage Integrations   │◄┼─────────────────────────────────── │                 │      │                 │   │
+│ │ • View Analytics        │ │                              │  │  (External API) │      │  (External API) │   │
+│ │ • Manage Security       │ │                              │  │                 │      │                 │   │
+│ │                         │ │                              │  └────────┬────────┘      └────────┬────────┘   │
+│ └─────────────────────────┘ │                              │           │                       │            │
+│                             │                              │           │  Lead Sync           │  Enrolment  │
+└─────────────────────────────┘                              │           │  Webhook              │  Status     │
+                                                              │           │                       │            │
+┌─────────────────────────────┐                              │           ▼                       ▼            │
+│                             │                              │  ┌─────────────────────────────────────────┐   │
+│         UNIVERSITY PARTNER  │                              │  │                                         │   │
+│        (External System)    │                              │  │         Payment Gateway                  │   │
+│                             │                              │  │         (Stripe / PayPal)                │   │
+│ ┌─────────────────────────┐ │                              │  │                                         │   │
+│ │ • Receive Lead Data     │◄┼─────────────────────────────────── │  • Process Withdrawals                  │   │
+│ │ • Send Enrolment Status │ │                              │  │  • Validate Bank Details                 │   │
+│ │ • Validate Offers       │ │                              │  │  • Handle Payouts                        │   │
+│ │                         │ │                              │  └─────────────────────────────────────────┘   │
+│ └─────────────────────────┘ │                              │                                                 │
+│                             │                              └─────────────────────────────────────────────────┘
+└─────────────────────────────┘
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+    │                                            RELATIONSHIP LEGEND                                           │
+    ├─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+    │                                                                                                          │
+    │  ◄──────  Association (Actor interacts with Use Case)                                                   │
+    │  ◄─ ─ ─ ─  Extends (Optional / exceptional behaviour)                                                   │
+    │  ◄◄──────  Includes (Mandatory sub-function)                                                             │
+    │                                                                                                          │
+    └─────────────────────────────────────────────────────────────────────────────────────────────────────────┘
